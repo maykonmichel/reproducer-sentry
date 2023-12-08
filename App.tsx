@@ -8,6 +8,7 @@
 import React from 'react';
 import type {PropsWithChildren} from 'react';
 import {
+  Button,
   SafeAreaView,
   ScrollView,
   StatusBar,
@@ -24,6 +25,11 @@ import {
   LearnMoreLinks,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+import * as Sentry from '@sentry/react-native';
+
+Sentry.init({
+  dsn: 'https://241a4d607de84f2b3aff4b18f06c88a6@o4506359951392768.ingest.sentry.io/4506359953162240',
+});
 
 type SectionProps = PropsWithChildren<{
   title: string;
@@ -33,6 +39,7 @@ function Section({children, title}: SectionProps): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
   return (
     <View style={styles.sectionContainer}>
+      <Button title='Try!' onPress={ () => { Sentry.captureException(new Error('First error')) }}/>
       <Text
         style={[
           styles.sectionTitle,
